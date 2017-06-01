@@ -18,10 +18,10 @@ entity Mood {
 }
 
 
-relationship OneToMany {
-	Mood{Device} to Device
+relationship ManyToMany {
+	Mood{Device} to Device{Mood}
 }
 
 
 paginate all with pager
-service all with serviceImpl 
+service all with serviceImpl

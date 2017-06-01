@@ -1,10 +1,13 @@
 package com.mycompany.myapp.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
 
 import com.mycompany.myapp.domain.enumeration.Type;
@@ -33,8 +36,10 @@ public class Device implements Serializable {
     @Column(name = "jhi_type")
     private Type type;
 
-    @ManyToOne
-    private Mood mood;
+    @ManyToMany(mappedBy = "devices")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Mood> moods = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -83,17 +88,29 @@ public class Device implements Serializable {
         this.type = type;
     }
 
-    public Mood getMood() {
-        return mood;
+    public Set<Mood> getMoods() {
+        return moods;
     }
 
-    public Device mood(Mood mood) {
-        this.mood = mood;
+    public Device moods(Set<Mood> moods) {
+        this.moods = moods;
         return this;
     }
 
-    public void setMood(Mood mood) {
-        this.mood = mood;
+    public Device addMood(Mood mood) {
+        this.moods.add(mood);
+        mood.getDevices().add(this);
+        return this;
+    }
+
+    public Device removeMood(Mood mood) {
+        this.moods.remove(mood);
+        mood.getDevices().remove(this);
+        return this;
+    }
+
+    public void setMoods(Set<Mood> moods) {
+        this.moods = moods;
     }
 
     @Override

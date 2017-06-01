@@ -45,6 +45,7 @@ public class CacheConfiguration {
             cm.createCache(com.mycompany.myapp.domain.Device.class.getName(), jcacheConfiguration);
             cm.createCache(com.mycompany.myapp.domain.Mood.class.getName(), jcacheConfiguration);
             cm.createCache(com.mycompany.myapp.domain.Mood.class.getName() + ".devices", jcacheConfiguration);
+            cm.createCache(com.mycompany.myapp.domain.Device.class.getName() + ".moods", jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

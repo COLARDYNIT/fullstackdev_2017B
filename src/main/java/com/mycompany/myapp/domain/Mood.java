@@ -1,6 +1,5 @@
 package com.mycompany.myapp.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -30,9 +29,11 @@ public class Mood implements Serializable {
     @Column(name = "active")
     private Boolean active;
 
-    @OneToMany(mappedBy = "mood")
-    @JsonIgnore
+    @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JoinTable(name = "mood_device",
+               joinColumns = @JoinColumn(name="moods_id", referencedColumnName="id"),
+               inverseJoinColumns = @JoinColumn(name="devices_id", referencedColumnName="id"))
     private Set<Device> devices = new HashSet<>();
 
     public Long getId() {
@@ -80,13 +81,13 @@ public class Mood implements Serializable {
 
     public Mood addDevice(Device device) {
         this.devices.add(device);
-        device.setMood(this);
+        device.getMoods().add(this);
         return this;
     }
 
     public Mood removeDevice(Device device) {
         this.devices.remove(device);
-        device.setMood(null);
+        device.getMoods().remove(this);
         return this;
     }
 

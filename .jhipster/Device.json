@@ -2,10 +2,11 @@
     "fluentMethods": true,
     "relationships": [
         {
-            "relationshipType": "many-to-one",
+            "relationshipType": "many-to-many",
             "relationshipName": "mood",
             "otherEntityName": "mood",
-            "otherEntityField": "id"
+            "ownerSide": false,
+            "otherEntityRelationshipName": "device"
         }
     ],
     "fields": [

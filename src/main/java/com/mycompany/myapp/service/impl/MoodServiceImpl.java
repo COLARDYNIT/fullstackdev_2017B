@@ -61,7 +61,7 @@ public class MoodServiceImpl implements MoodService{
     @Transactional(readOnly = true)
     public Mood findOne(Long id) {
         log.debug("Request to get Mood : {}", id);
-        return moodRepository.findOne(id);
+        return moodRepository.findOneWithEagerRelationships(id);
     }
 
     /**

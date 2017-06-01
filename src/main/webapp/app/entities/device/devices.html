@@ -22,7 +22,6 @@
                     <th jh-sort-by="name"><span>Name</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="state"><span>State</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="type"><span>Type</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="mood.id"><span>Mood</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th></th>
                 </tr>
             </thead>
@@ -32,9 +31,6 @@
                     <td>{{device.name}}</td>
                     <td>{{device.state}}</td>
                     <td>{{device.type}}</td>
-                    <td>
-                        <a ui-sref="mood-detail({id:device.mood.id})">{{device.mood.id}}</a>
-                    </td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"
