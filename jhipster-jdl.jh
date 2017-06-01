@@ -1,0 +1,27 @@
+entity Device {
+	name String,
+    state Boolean,
+    state Integer,
+    type Type
+}
+
+enum Type {
+	LIGHT,
+    POWER_SOURCE,
+    SHUTTERS,
+    AUDIO_VOLUME
+}
+
+entity Mood {
+	name String,
+    active Boolean
+}
+
+
+relationship OneToMany {
+	Mood{Device} to Device
+}
+
+
+paginate all with pager
+service all with serviceImpl 

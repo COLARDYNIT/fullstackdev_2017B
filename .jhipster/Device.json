@@ -1,0 +1,31 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "mood",
+            "otherEntityName": "mood",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "state",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "type",
+            "fieldType": "Type",
+            "fieldValues": "LIGHT,POWER_SOURCE,SHUTTERS,AUDIO_VOLUME"
+        }
+    ],
+    "changelogDate": "20170601084157",
+    "entityTableName": "device",
+    "dto": "no",
+    "pagination": "pager",
+    "service": "serviceImpl"
+}

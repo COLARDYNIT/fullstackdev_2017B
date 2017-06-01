@@ -1,0 +1,26 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "device",
+            "otherEntityName": "device",
+            "otherEntityRelationshipName": "mood"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "active",
+            "fieldType": "Boolean"
+        }
+    ],
+    "changelogDate": "20170601084158",
+    "entityTableName": "mood",
+    "dto": "no",
+    "pagination": "pager",
+    "service": "serviceImpl"
+}
