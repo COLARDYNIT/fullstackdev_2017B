@@ -117,6 +117,9 @@
                             return {
                                 name: null,
                                 active: null,
+                                audioVolume: null,
+                                brightness: null,
+                                shutterHeight: null,
                                 id: null
                             };
                         }

@@ -20,8 +20,6 @@ import java.util.Set;
 public class Device implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private static final int ON = 100;
-    private static final int OFF = 0;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,7 +29,7 @@ public class Device implements Serializable {
     private String name;
 
     @Column(name = "state")
-    private Integer state;
+    private Boolean state;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "jhi_type")
@@ -63,16 +61,16 @@ public class Device implements Serializable {
         this.name = name;
     }
 
-    public Integer getState() {
+    public Boolean isState() {
         return state;
     }
 
-    public Device state(Integer state) {
+    public Device state(Boolean state) {
         this.state = state;
         return this;
     }
 
-    public void setState(Integer state) {
+    public void setState(Boolean state) {
         this.state = state;
     }
 
@@ -139,7 +137,7 @@ public class Device implements Serializable {
         return "Device{" +
             "id=" + getId() +
             ", name='" + getName() + "'" +
-            ", state='" + getState() + "'" +
+            ", state='" + isState() + "'" +
             ", type='" + getType() + "'" +
             "}";
     }

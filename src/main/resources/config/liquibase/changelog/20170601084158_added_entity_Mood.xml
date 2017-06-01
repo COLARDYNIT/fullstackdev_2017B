@@ -30,6 +30,18 @@
                 <constraints nullable="true" />
             </column>
 
+            <column name="audio_volume" type="integer">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="brightness" type="integer">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="shutter_height" type="integer">
+                <constraints nullable="true" />
+            </column>
+
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
         

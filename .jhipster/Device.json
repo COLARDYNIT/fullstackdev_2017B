@@ -16,7 +16,7 @@
         },
         {
             "fieldName": "state",
-            "fieldType": "Integer"
+            "fieldType": "Boolean"
         },
         {
             "fieldName": "type",

@@ -21,6 +21,9 @@
                     <th jh-sort-by="id"><span>ID</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="name"><span>Name</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="active"><span>Active</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="audioVolume"><span>Audio Volume</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="brightness"><span>Brightness</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="shutterHeight"><span>Shutter Height</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th></th>
                 </tr>
             </thead>
@@ -29,6 +32,9 @@
                     <td><a ui-sref="mood-detail({id:mood.id})">{{mood.id}}</a></td>
                     <td>{{mood.name}}</td>
                     <td>{{mood.active}}</td>
+                    <td>{{mood.audioVolume}}</td>
+                    <td>{{mood.brightness}}</td>
+                    <td>{{mood.shutterHeight}}</td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"

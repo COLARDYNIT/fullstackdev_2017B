@@ -42,8 +42,8 @@ public class DeviceResourceIntTest {
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_NAME = "BBBBBBBBBB";
 
-    private static final Integer DEFAULT_STATE = 1;
-    private static final Integer UPDATED_STATE = 2;
+    private static final Boolean DEFAULT_STATE = false;
+    private static final Boolean UPDATED_STATE = true;
 
     private static final Type DEFAULT_TYPE = Type.LIGHT;
     private static final Type UPDATED_TYPE = Type.POWER_SOURCE;
@@ -115,7 +115,7 @@ public class DeviceResourceIntTest {
         assertThat(deviceList).hasSize(databaseSizeBeforeCreate + 1);
         Device testDevice = deviceList.get(deviceList.size() - 1);
         assertThat(testDevice.getName()).isEqualTo(DEFAULT_NAME);
-        assertThat(testDevice.getState()).isEqualTo(DEFAULT_STATE);
+        assertThat(testDevice.isState()).isEqualTo(DEFAULT_STATE);
         assertThat(testDevice.getType()).isEqualTo(DEFAULT_TYPE);
     }
 
@@ -150,7 +150,7 @@ public class DeviceResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(device.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
-            .andExpect(jsonPath("$.[*].state").value(hasItem(DEFAULT_STATE)))
+            .andExpect(jsonPath("$.[*].state").value(hasItem(DEFAULT_STATE.booleanValue())))
             .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())));
     }
 
@@ -166,7 +166,7 @@ public class DeviceResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(device.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
-            .andExpect(jsonPath("$.state").value(DEFAULT_STATE))
+            .andExpect(jsonPath("$.state").value(DEFAULT_STATE.booleanValue()))
             .andExpect(jsonPath("$.type").value(DEFAULT_TYPE.toString()));
     }
 
@@ -203,7 +203,7 @@ public class DeviceResourceIntTest {
         assertThat(deviceList).hasSize(databaseSizeBeforeUpdate);
         Device testDevice = deviceList.get(deviceList.size() - 1);
         assertThat(testDevice.getName()).isEqualTo(UPDATED_NAME);
-        assertThat(testDevice.getState()).isEqualTo(UPDATED_STATE);
+        assertThat(testDevice.isState()).isEqualTo(UPDATED_STATE);
         assertThat(testDevice.getType()).isEqualTo(UPDATED_TYPE);
     }
 

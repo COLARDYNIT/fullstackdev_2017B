@@ -18,4 +18,9 @@ public interface DeviceRepository extends JpaRepository<Device,Long> {
 
     List<Device> findAllByMoods(Mood mood);
 
+    long countByState(boolean b);
+
+    int countByMoods(Mood mood);
+
+    List<Device> findAllByState(boolean b);
 }

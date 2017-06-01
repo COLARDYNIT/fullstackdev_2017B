@@ -26,7 +26,7 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="state" type="integer">
+            <column name="state" type="bit">
                 <constraints nullable="true" />
             </column>
 

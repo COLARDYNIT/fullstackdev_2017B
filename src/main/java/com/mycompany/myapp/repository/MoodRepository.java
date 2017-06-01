@@ -1,5 +1,6 @@
 package com.mycompany.myapp.repository;
 
+import com.mycompany.myapp.domain.Device;
 import com.mycompany.myapp.domain.Mood;
 import org.springframework.stereotype.Repository;
 
@@ -21,4 +22,8 @@ public interface MoodRepository extends JpaRepository<Mood,Long> {
     Mood findOneWithEagerRelationships(@Param("id") Long id);
 
     Mood findOneByName(String moodName);
+
+    Mood findOneByActive(boolean b);
+
+    List<Mood> findAllByDevices(Device device);
 }

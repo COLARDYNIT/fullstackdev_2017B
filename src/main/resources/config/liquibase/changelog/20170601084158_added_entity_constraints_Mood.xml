@@ -7,7 +7,7 @@
         Added the constraints for entity Mood.
     -->
     <changeSet id="20170601084158-2" author="jhipster">
-
+        
         <addForeignKeyConstraint baseColumnNames="moods_id"
                                  baseTableName="mood_device"
                                  constraintName="fk_mood_device_moods_id"
@@ -18,6 +18,6 @@
                                  constraintName="fk_mood_device_devices_id"
                                  referencedColumnNames="id"
                                  referencedTableName="device"/>
-
+        
     </changeSet>
 </databaseChangeLog>

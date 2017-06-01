@@ -2,10 +2,10 @@ package com.mycompany.myapp.service.impl;
 
 import com.mycompany.myapp.Exceptions.InvalidMoodNameException;
 import com.mycompany.myapp.domain.Device;
-import com.mycompany.myapp.domain.Mood;
 import com.mycompany.myapp.repository.DeviceRepository;
-import com.mycompany.myapp.repository.MoodRepository;
 import com.mycompany.myapp.service.MoodService;
+import com.mycompany.myapp.domain.Mood;
+import com.mycompany.myapp.repository.MoodRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -25,6 +25,7 @@ import java.util.List;
 public class MoodServiceImpl implements MoodService{
 
     private final Logger log = LoggerFactory.getLogger(MoodServiceImpl.class);
+
     @Resource
     private MoodRepository moodRepository;
     @Resource
@@ -39,6 +40,12 @@ public class MoodServiceImpl implements MoodService{
     @Override
     public Mood save(Mood mood) {
         log.debug("Request to save Mood : {}", mood);
+        if(mood.isActive()){
+            toggleDevicesForMood(mood,true);
+        }else{
+            toggleDevicesForMood(mood,false);
+        }
+
         return moodRepository.save(mood);
     }
 
@@ -80,16 +87,54 @@ public class MoodServiceImpl implements MoodService{
     }
 
     @Override
-    public void toggleMood(String moodName) throws Exception{
-        Mood mood = moodRepository.findOneByName(moodName);
-        if (mood != null) {
-            List<Device> deviceList = deviceRepository.findAllByMoods(mood);
-            for (Device device : deviceList) {
+    public void toggleMood(String moodName) throws Exception {
+        String message = "this mood does not exist! (yet)";
+        if(moodName != null && !moodName.isEmpty()){
+            Mood mood = moodRepository.findOneByName(moodName);
+            if (mood != null) {
+                disableAllDevices();
+                toggleDevicesForMood(mood,true);
+                mood.setActive(true);
+                moodRepository.save(mood);
+            }else throw new InvalidMoodNameException(message);
+        }else throw new InvalidMoodNameException(message);
+    }
 
-            }
-        }else {
-            throw new InvalidMoodNameException("This mood does not exist! (yet)");
+    private void disableAllDevices() {
+        List<Device> devices = deviceRepository.findAll();
+        for (Device device : devices) {
+            device.setState(false);
+            deviceRepository.save(device);
         }
+    }
 
+    private void toggleDevicesForMood(Mood mood,boolean active) {
+        List<Device> devices = deviceRepository.findAllByMoods(mood);
+        if(devices.size() == 0){ // e.g. away status that turns off everything
+            disableAllDevices();
+        }else{
+            for (Device device : devices) {
+                device.setState(active);
+                deviceRepository.save(device);
+            }
+        }
+    }
+
+    @Override
+    public Mood currentMood() {
+        Mood mood = moodRepository.findOneByActive(true);
+        if (mood != null) {
+            List<Device> activeDevices = deviceRepository.findAllByState(true);
+            int moodDevices = deviceRepository.countByMoods(mood);
+            if (activeDevices.size() == moodDevices){
+                List<Device> allByMoods = deviceRepository.findAllByMoods(mood);
+                for (Device allByMood : allByMoods) {
+                    if(!activeDevices.contains(allByMood)){
+                        return null;
+                    }
+                }
+                return mood;
+            }else return null;
+        } else return null;
     }
 }

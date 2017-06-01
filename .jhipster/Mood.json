@@ -18,6 +18,18 @@
         {
             "fieldName": "active",
             "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "audioVolume",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "brightness",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "shutterHeight",
+            "fieldType": "Integer"
         }
     ],
     "changelogDate": "20170601084158",

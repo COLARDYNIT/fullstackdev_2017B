@@ -44,6 +44,15 @@ public class MoodResourceIntTest {
     private static final Boolean DEFAULT_ACTIVE = false;
     private static final Boolean UPDATED_ACTIVE = true;
 
+    private static final Integer DEFAULT_AUDIO_VOLUME = 1;
+    private static final Integer UPDATED_AUDIO_VOLUME = 2;
+
+    private static final Integer DEFAULT_BRIGHTNESS = 1;
+    private static final Integer UPDATED_BRIGHTNESS = 2;
+
+    private static final Integer DEFAULT_SHUTTER_HEIGHT = 1;
+    private static final Integer UPDATED_SHUTTER_HEIGHT = 2;
+
     @Autowired
     private MoodRepository moodRepository;
 
@@ -85,7 +94,10 @@ public class MoodResourceIntTest {
     public static Mood createEntity(EntityManager em) {
         Mood mood = new Mood()
             .name(DEFAULT_NAME)
-            .active(DEFAULT_ACTIVE);
+            .active(DEFAULT_ACTIVE)
+            .audioVolume(DEFAULT_AUDIO_VOLUME)
+            .brightness(DEFAULT_BRIGHTNESS)
+            .shutterHeight(DEFAULT_SHUTTER_HEIGHT);
         return mood;
     }
 
@@ -111,6 +123,9 @@ public class MoodResourceIntTest {
         Mood testMood = moodList.get(moodList.size() - 1);
         assertThat(testMood.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testMood.isActive()).isEqualTo(DEFAULT_ACTIVE);
+        assertThat(testMood.getAudioVolume()).isEqualTo(DEFAULT_AUDIO_VOLUME);
+        assertThat(testMood.getBrightness()).isEqualTo(DEFAULT_BRIGHTNESS);
+        assertThat(testMood.getShutterHeight()).isEqualTo(DEFAULT_SHUTTER_HEIGHT);
     }
 
     @Test
@@ -144,7 +159,10 @@ public class MoodResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(mood.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
-            .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE.booleanValue())));
+            .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE.booleanValue())))
+            .andExpect(jsonPath("$.[*].audioVolume").value(hasItem(DEFAULT_AUDIO_VOLUME)))
+            .andExpect(jsonPath("$.[*].brightness").value(hasItem(DEFAULT_BRIGHTNESS)))
+            .andExpect(jsonPath("$.[*].shutterHeight").value(hasItem(DEFAULT_SHUTTER_HEIGHT)));
     }
 
     @Test
@@ -159,7 +177,10 @@ public class MoodResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(mood.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
-            .andExpect(jsonPath("$.active").value(DEFAULT_ACTIVE.booleanValue()));
+            .andExpect(jsonPath("$.active").value(DEFAULT_ACTIVE.booleanValue()))
+            .andExpect(jsonPath("$.audioVolume").value(DEFAULT_AUDIO_VOLUME))
+            .andExpect(jsonPath("$.brightness").value(DEFAULT_BRIGHTNESS))
+            .andExpect(jsonPath("$.shutterHeight").value(DEFAULT_SHUTTER_HEIGHT));
     }
 
     @Test
@@ -182,7 +203,10 @@ public class MoodResourceIntTest {
         Mood updatedMood = moodRepository.findOne(mood.getId());
         updatedMood
             .name(UPDATED_NAME)
-            .active(UPDATED_ACTIVE);
+            .active(UPDATED_ACTIVE)
+            .audioVolume(UPDATED_AUDIO_VOLUME)
+            .brightness(UPDATED_BRIGHTNESS)
+            .shutterHeight(UPDATED_SHUTTER_HEIGHT);
 
         restMoodMockMvc.perform(put("/api/moods")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -195,6 +219,9 @@ public class MoodResourceIntTest {
         Mood testMood = moodList.get(moodList.size() - 1);
         assertThat(testMood.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testMood.isActive()).isEqualTo(UPDATED_ACTIVE);
+        assertThat(testMood.getAudioVolume()).isEqualTo(UPDATED_AUDIO_VOLUME);
+        assertThat(testMood.getBrightness()).isEqualTo(UPDATED_BRIGHTNESS);
+        assertThat(testMood.getShutterHeight()).isEqualTo(UPDATED_SHUTTER_HEIGHT);
     }
 
     @Test

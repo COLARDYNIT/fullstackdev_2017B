@@ -41,4 +41,6 @@ public interface MoodService {
     void delete(Long id);
 
     void toggleMood(String moodName) throws Exception;
+
+    Mood currentMood();
 }

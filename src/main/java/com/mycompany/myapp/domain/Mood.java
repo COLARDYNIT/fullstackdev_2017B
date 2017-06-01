@@ -29,6 +29,15 @@ public class Mood implements Serializable {
     @Column(name = "active")
     private Boolean active;
 
+    @Column(name = "audio_volume")
+    private Integer audioVolume;
+
+    @Column(name = "brightness")
+    private Integer brightness;
+
+    @Column(name = "shutter_height")
+    private Integer shutterHeight;
+
     @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "mood_device",
@@ -68,6 +77,45 @@ public class Mood implements Serializable {
 
     public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    public Integer getAudioVolume() {
+        return audioVolume;
+    }
+
+    public Mood audioVolume(Integer audioVolume) {
+        this.audioVolume = audioVolume;
+        return this;
+    }
+
+    public void setAudioVolume(Integer audioVolume) {
+        this.audioVolume = audioVolume;
+    }
+
+    public Integer getBrightness() {
+        return brightness;
+    }
+
+    public Mood brightness(Integer brightness) {
+        this.brightness = brightness;
+        return this;
+    }
+
+    public void setBrightness(Integer brightness) {
+        this.brightness = brightness;
+    }
+
+    public Integer getShutterHeight() {
+        return shutterHeight;
+    }
+
+    public Mood shutterHeight(Integer shutterHeight) {
+        this.shutterHeight = shutterHeight;
+        return this;
+    }
+
+    public void setShutterHeight(Integer shutterHeight) {
+        this.shutterHeight = shutterHeight;
     }
 
     public Set<Device> getDevices() {
@@ -121,6 +169,9 @@ public class Mood implements Serializable {
             "id=" + getId() +
             ", name='" + getName() + "'" +
             ", active='" + isActive() + "'" +
+            ", audioVolume='" + getAudioVolume() + "'" +
+            ", brightness='" + getBrightness() + "'" +
+            ", shutterHeight='" + getShutterHeight() + "'" +
             "}";
     }
 }

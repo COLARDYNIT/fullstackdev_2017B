@@ -1,14 +1,19 @@
 package com.mycompany.myapp.service.impl;
 
-import com.mycompany.myapp.service.DeviceService;
 import com.mycompany.myapp.domain.Device;
+import com.mycompany.myapp.domain.Mood;
 import com.mycompany.myapp.repository.DeviceRepository;
+import com.mycompany.myapp.repository.MoodRepository;
+import com.mycompany.myapp.service.DeviceService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 
 /**
@@ -20,11 +25,12 @@ public class DeviceServiceImpl implements DeviceService{
 
     private final Logger log = LoggerFactory.getLogger(DeviceServiceImpl.class);
 
-    private final DeviceRepository deviceRepository;
+    @Resource
+    private DeviceRepository deviceRepository;
+    @Resource
+    private MoodRepository moodRepository;
 
-    public DeviceServiceImpl(DeviceRepository deviceRepository) {
-        this.deviceRepository = deviceRepository;
-    }
+
 
     /**
      * Save a device.
@@ -35,6 +41,18 @@ public class DeviceServiceImpl implements DeviceService{
     @Override
     public Device save(Device device) {
         log.debug("Request to save Device : {}", device);
+        //if device is part of active mood and state is set to false set mood to false
+        if (!device.isState()){
+            List<Mood> moodList = moodRepository.findAllByDevices(device);
+            for (Mood mood : moodList) {
+                if (mood.isActive()){
+                    mood.setActive(false);
+                    moodRepository.save(mood);
+                }
+            }
+        }
+
+
         return deviceRepository.save(device);
     }
 
