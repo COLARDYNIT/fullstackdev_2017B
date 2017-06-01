@@ -12,3 +12,14 @@ stage ('test & package'){
         archiveArtifacts 'target/*.war'
     }
 }
+stage('img build'){
+    input "Build raspberry image?"
+    node {
+        dir("image"){
+            git branch: 'develop', url: 'git@github.com:COLARDYNIT/pi-gen.git'
+        }
+        sh"mv target/*war image/stage2/01-sys-tweaks/files/"
+        sh "sudo image/build.sh"
+        archiveArtifacts 'image/work/*-dockerpi/export-image/*.img'
+    }
+}
