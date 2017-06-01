@@ -1,12 +1,11 @@
 package com.mycompany.myapp.web.rest;
 
 import com.mycompany.myapp.Fullstackdev2017BApp;
-
 import com.mycompany.myapp.domain.Device;
+import com.mycompany.myapp.domain.enumeration.Type;
 import com.mycompany.myapp.repository.DeviceRepository;
 import com.mycompany.myapp.service.DeviceService;
 import com.mycompany.myapp.web.rest.errors.ExceptionTranslator;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,8 +27,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import com.mycompany.myapp.domain.enumeration.Type;
 /**
  * Test class for the DeviceResource REST controller.
  *
@@ -101,26 +98,6 @@ public class DeviceResourceIntTest {
 
     @Test
     @Transactional
-    public void createDevice() throws Exception {
-        int databaseSizeBeforeCreate = deviceRepository.findAll().size();
-
-        // Create the Device
-        restDeviceMockMvc.perform(post("/api/devices")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(device)))
-            .andExpect(status().isCreated());
-
-        // Validate the Device in the database
-        List<Device> deviceList = deviceRepository.findAll();
-        assertThat(deviceList).hasSize(databaseSizeBeforeCreate + 1);
-        Device testDevice = deviceList.get(deviceList.size() - 1);
-        assertThat(testDevice.getName()).isEqualTo(DEFAULT_NAME);
-        assertThat(testDevice.isState()).isEqualTo(DEFAULT_STATE);
-        assertThat(testDevice.getType()).isEqualTo(DEFAULT_TYPE);
-    }
-
-    @Test
-    @Transactional
     public void createDeviceWithExistingId() throws Exception {
         int databaseSizeBeforeCreate = deviceRepository.findAll().size();
 
@@ -178,83 +155,5 @@ public class DeviceResourceIntTest {
             .andExpect(status().isNotFound());
     }
 
-    @Test
-    @Transactional
-    public void updateDevice() throws Exception {
-        // Initialize the database
-        deviceService.save(device);
 
-        int databaseSizeBeforeUpdate = deviceRepository.findAll().size();
-
-        // Update the device
-        Device updatedDevice = deviceRepository.findOne(device.getId());
-        updatedDevice
-            .name(UPDATED_NAME)
-            .state(UPDATED_STATE)
-            .type(UPDATED_TYPE);
-
-        restDeviceMockMvc.perform(put("/api/devices")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(updatedDevice)))
-            .andExpect(status().isOk());
-
-        // Validate the Device in the database
-        List<Device> deviceList = deviceRepository.findAll();
-        assertThat(deviceList).hasSize(databaseSizeBeforeUpdate);
-        Device testDevice = deviceList.get(deviceList.size() - 1);
-        assertThat(testDevice.getName()).isEqualTo(UPDATED_NAME);
-        assertThat(testDevice.isState()).isEqualTo(UPDATED_STATE);
-        assertThat(testDevice.getType()).isEqualTo(UPDATED_TYPE);
-    }
-
-    @Test
-    @Transactional
-    public void updateNonExistingDevice() throws Exception {
-        int databaseSizeBeforeUpdate = deviceRepository.findAll().size();
-
-        // Create the Device
-
-        // If the entity doesn't have an ID, it will be created instead of just being updated
-        restDeviceMockMvc.perform(put("/api/devices")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(device)))
-            .andExpect(status().isCreated());
-
-        // Validate the Device in the database
-        List<Device> deviceList = deviceRepository.findAll();
-        assertThat(deviceList).hasSize(databaseSizeBeforeUpdate + 1);
-    }
-
-    @Test
-    @Transactional
-    public void deleteDevice() throws Exception {
-        // Initialize the database
-        deviceService.save(device);
-
-        int databaseSizeBeforeDelete = deviceRepository.findAll().size();
-
-        // Get the device
-        restDeviceMockMvc.perform(delete("/api/devices/{id}", device.getId())
-            .accept(TestUtil.APPLICATION_JSON_UTF8))
-            .andExpect(status().isOk());
-
-        // Validate the database is empty
-        List<Device> deviceList = deviceRepository.findAll();
-        assertThat(deviceList).hasSize(databaseSizeBeforeDelete - 1);
-    }
-
-    @Test
-    @Transactional
-    public void equalsVerifier() throws Exception {
-        TestUtil.equalsVerifier(Device.class);
-        Device device1 = new Device();
-        device1.setId(1L);
-        Device device2 = new Device();
-        device2.setId(device1.getId());
-        assertThat(device1).isEqualTo(device2);
-        device2.setId(2L);
-        assertThat(device1).isNotEqualTo(device2);
-        device1.setId(null);
-        assertThat(device1).isNotEqualTo(device2);
-    }
 }

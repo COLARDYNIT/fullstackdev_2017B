@@ -108,28 +108,6 @@ public class MoodResourceIntTest {
 
     @Test
     @Transactional
-    public void createMood() throws Exception {
-        int databaseSizeBeforeCreate = moodRepository.findAll().size();
-
-        // Create the Mood
-        restMoodMockMvc.perform(post("/api/moods")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(mood)))
-            .andExpect(status().isCreated());
-
-        // Validate the Mood in the database
-        List<Mood> moodList = moodRepository.findAll();
-        assertThat(moodList).hasSize(databaseSizeBeforeCreate + 1);
-        Mood testMood = moodList.get(moodList.size() - 1);
-        assertThat(testMood.getName()).isEqualTo(DEFAULT_NAME);
-        assertThat(testMood.isActive()).isEqualTo(DEFAULT_ACTIVE);
-        assertThat(testMood.getAudioVolume()).isEqualTo(DEFAULT_AUDIO_VOLUME);
-        assertThat(testMood.getBrightness()).isEqualTo(DEFAULT_BRIGHTNESS);
-        assertThat(testMood.getShutterHeight()).isEqualTo(DEFAULT_SHUTTER_HEIGHT);
-    }
-
-    @Test
-    @Transactional
     public void createMoodWithExistingId() throws Exception {
         int databaseSizeBeforeCreate = moodRepository.findAll().size();
 
@@ -191,87 +169,6 @@ public class MoodResourceIntTest {
             .andExpect(status().isNotFound());
     }
 
-    @Test
-    @Transactional
-    public void updateMood() throws Exception {
-        // Initialize the database
-        moodService.save(mood);
 
-        int databaseSizeBeforeUpdate = moodRepository.findAll().size();
 
-        // Update the mood
-        Mood updatedMood = moodRepository.findOne(mood.getId());
-        updatedMood
-            .name(UPDATED_NAME)
-            .active(UPDATED_ACTIVE)
-            .audioVolume(UPDATED_AUDIO_VOLUME)
-            .brightness(UPDATED_BRIGHTNESS)
-            .shutterHeight(UPDATED_SHUTTER_HEIGHT);
-
-        restMoodMockMvc.perform(put("/api/moods")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(updatedMood)))
-            .andExpect(status().isOk());
-
-        // Validate the Mood in the database
-        List<Mood> moodList = moodRepository.findAll();
-        assertThat(moodList).hasSize(databaseSizeBeforeUpdate);
-        Mood testMood = moodList.get(moodList.size() - 1);
-        assertThat(testMood.getName()).isEqualTo(UPDATED_NAME);
-        assertThat(testMood.isActive()).isEqualTo(UPDATED_ACTIVE);
-        assertThat(testMood.getAudioVolume()).isEqualTo(UPDATED_AUDIO_VOLUME);
-        assertThat(testMood.getBrightness()).isEqualTo(UPDATED_BRIGHTNESS);
-        assertThat(testMood.getShutterHeight()).isEqualTo(UPDATED_SHUTTER_HEIGHT);
-    }
-
-    @Test
-    @Transactional
-    public void updateNonExistingMood() throws Exception {
-        int databaseSizeBeforeUpdate = moodRepository.findAll().size();
-
-        // Create the Mood
-
-        // If the entity doesn't have an ID, it will be created instead of just being updated
-        restMoodMockMvc.perform(put("/api/moods")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(mood)))
-            .andExpect(status().isCreated());
-
-        // Validate the Mood in the database
-        List<Mood> moodList = moodRepository.findAll();
-        assertThat(moodList).hasSize(databaseSizeBeforeUpdate + 1);
-    }
-
-    @Test
-    @Transactional
-    public void deleteMood() throws Exception {
-        // Initialize the database
-        moodService.save(mood);
-
-        int databaseSizeBeforeDelete = moodRepository.findAll().size();
-
-        // Get the mood
-        restMoodMockMvc.perform(delete("/api/moods/{id}", mood.getId())
-            .accept(TestUtil.APPLICATION_JSON_UTF8))
-            .andExpect(status().isOk());
-
-        // Validate the database is empty
-        List<Mood> moodList = moodRepository.findAll();
-        assertThat(moodList).hasSize(databaseSizeBeforeDelete - 1);
-    }
-
-    @Test
-    @Transactional
-    public void equalsVerifier() throws Exception {
-        TestUtil.equalsVerifier(Mood.class);
-        Mood mood1 = new Mood();
-        mood1.setId(1L);
-        Mood mood2 = new Mood();
-        mood2.setId(mood1.getId());
-        assertThat(mood1).isEqualTo(mood2);
-        mood2.setId(2L);
-        assertThat(mood1).isNotEqualTo(mood2);
-        mood1.setId(null);
-        assertThat(mood1).isNotEqualTo(mood2);
-    }
 }
