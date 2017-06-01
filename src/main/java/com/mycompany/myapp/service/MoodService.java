@@ -39,4 +39,6 @@ public interface MoodService {
      *  @param id the id of the entity
      */
     void delete(Long id);
+
+    void toggleMood(String moodName) throws Exception;
 }

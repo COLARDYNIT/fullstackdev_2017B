@@ -20,4 +20,5 @@ public interface MoodRepository extends JpaRepository<Mood,Long> {
     @Query("select mood from Mood mood left join fetch mood.devices where mood.id =:id")
     Mood findOneWithEagerRelationships(@Param("id") Long id);
 
+    Mood findOneByName(String moodName);
 }

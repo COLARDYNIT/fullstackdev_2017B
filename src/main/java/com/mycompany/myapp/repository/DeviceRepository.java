@@ -1,9 +1,12 @@
 package com.mycompany.myapp.repository;
 
 import com.mycompany.myapp.domain.Device;
+import com.mycompany.myapp.domain.Mood;
 import org.springframework.stereotype.Repository;
 
 import org.springframework.data.jpa.repository.*;
+
+import java.util.List;
 
 
 /**
@@ -12,5 +15,7 @@ import org.springframework.data.jpa.repository.*;
 @SuppressWarnings("unused")
 @Repository
 public interface DeviceRepository extends JpaRepository<Device,Long> {
+
+    List<Device> findAllByMoods(Mood mood);
 
 }

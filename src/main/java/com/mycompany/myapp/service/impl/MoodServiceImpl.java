@@ -1,14 +1,20 @@
 package com.mycompany.myapp.service.impl;
 
-import com.mycompany.myapp.service.MoodService;
+import com.mycompany.myapp.Exceptions.InvalidMoodNameException;
+import com.mycompany.myapp.domain.Device;
 import com.mycompany.myapp.domain.Mood;
+import com.mycompany.myapp.repository.DeviceRepository;
 import com.mycompany.myapp.repository.MoodRepository;
+import com.mycompany.myapp.service.MoodService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 
 /**
@@ -19,12 +25,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class MoodServiceImpl implements MoodService{
 
     private final Logger log = LoggerFactory.getLogger(MoodServiceImpl.class);
-
-    private final MoodRepository moodRepository;
-
-    public MoodServiceImpl(MoodRepository moodRepository) {
-        this.moodRepository = moodRepository;
-    }
+    @Resource
+    private MoodRepository moodRepository;
+    @Resource
+    private DeviceRepository deviceRepository;
 
     /**
      * Save a mood.
@@ -73,5 +77,19 @@ public class MoodServiceImpl implements MoodService{
     public void delete(Long id) {
         log.debug("Request to delete Mood : {}", id);
         moodRepository.delete(id);
+    }
+
+    @Override
+    public void toggleMood(String moodName) throws Exception{
+        Mood mood = moodRepository.findOneByName(moodName);
+        if (mood != null) {
+            List<Device> deviceList = deviceRepository.findAllByMoods(mood);
+            for (Device device : deviceList) {
+
+            }
+        }else {
+            throw new InvalidMoodNameException("This mood does not exist! (yet)");
+        }
+
     }
 }

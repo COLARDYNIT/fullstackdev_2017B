@@ -1,7 +1,6 @@
 entity Device {
 	name String,
     state Boolean,
-    state Integer,
     type Type
 }
 
@@ -14,7 +13,10 @@ enum Type {
 
 entity Mood {
 	name String,
-    active Boolean
+    active Boolean,
+    audioVolume Integer,
+    brightness Integer,
+    shutterHeight Integer,
 }
 
 

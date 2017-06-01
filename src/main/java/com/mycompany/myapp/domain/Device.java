@@ -1,16 +1,15 @@
 package com.mycompany.myapp.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.mycompany.myapp.domain.enumeration.Type;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
-
-import com.mycompany.myapp.domain.enumeration.Type;
+import java.util.Set;
 
 /**
  * A Device.
@@ -21,6 +20,8 @@ import com.mycompany.myapp.domain.enumeration.Type;
 public class Device implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    private static final int ON = 100;
+    private static final int OFF = 0;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
