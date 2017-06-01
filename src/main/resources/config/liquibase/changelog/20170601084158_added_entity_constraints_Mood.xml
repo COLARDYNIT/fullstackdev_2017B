@@ -9,15 +9,15 @@
     <changeSet id="20170601084158-2" author="jhipster">
         
         <addForeignKeyConstraint baseColumnNames="moods_id"
-                                 baseTableName="mood_device"
-                                 constraintName="fk_mood_device_moods_id"
+                                 baseTableName="mood_device_in_state"
+                                 constraintName="fk_mood_device_in_state_moods_id"
                                  referencedColumnNames="id"
                                  referencedTableName="mood"/>
-        <addForeignKeyConstraint baseColumnNames="devices_id"
-                                 baseTableName="mood_device"
-                                 constraintName="fk_mood_device_devices_id"
+        <addForeignKeyConstraint baseColumnNames="device_in_states_id"
+                                 baseTableName="mood_device_in_state"
+                                 constraintName="fk_mood_device_in_state_device_in_states_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="device"/>
+                                 referencedTableName="device_in_state"/>
         
     </changeSet>
 </databaseChangeLog>

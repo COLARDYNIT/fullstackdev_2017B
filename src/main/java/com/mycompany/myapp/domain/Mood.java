@@ -40,10 +40,10 @@ public class Mood implements Serializable {
 
     @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    @JoinTable(name = "mood_device",
+    @JoinTable(name = "mood_device_in_state",
                joinColumns = @JoinColumn(name="moods_id", referencedColumnName="id"),
-               inverseJoinColumns = @JoinColumn(name="devices_id", referencedColumnName="id"))
-    private Set<Device> devices = new HashSet<>();
+               inverseJoinColumns = @JoinColumn(name="device_in_states_id", referencedColumnName="id"))
+    private Set<DeviceInState> deviceInStates = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -118,29 +118,29 @@ public class Mood implements Serializable {
         this.shutterHeight = shutterHeight;
     }
 
-    public Set<Device> getDevices() {
-        return devices;
+    public Set<DeviceInState> getDeviceInStates() {
+        return deviceInStates;
     }
 
-    public Mood devices(Set<Device> devices) {
-        this.devices = devices;
+    public Mood deviceInStates(Set<DeviceInState> deviceInStates) {
+        this.deviceInStates = deviceInStates;
         return this;
     }
 
-    public Mood addDevice(Device device) {
-        this.devices.add(device);
-        device.getMoods().add(this);
+    public Mood addDeviceInState(DeviceInState deviceInState) {
+        this.deviceInStates.add(deviceInState);
+        deviceInState.getMoods().add(this);
         return this;
     }
 
-    public Mood removeDevice(Device device) {
-        this.devices.remove(device);
-        device.getMoods().remove(this);
+    public Mood removeDeviceInState(DeviceInState deviceInState) {
+        this.deviceInStates.remove(deviceInState);
+        deviceInState.getMoods().remove(this);
         return this;
     }
 
-    public void setDevices(Set<Device> devices) {
-        this.devices = devices;
+    public void setDeviceInStates(Set<DeviceInState> deviceInStates) {
+        this.deviceInStates = deviceInStates;
     }
 
     @Override

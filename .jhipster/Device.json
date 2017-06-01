@@ -1,14 +1,6 @@
 {
     "fluentMethods": true,
-    "relationships": [
-        {
-            "relationshipType": "many-to-many",
-            "relationshipName": "mood",
-            "otherEntityName": "mood",
-            "ownerSide": false,
-            "otherEntityRelationshipName": "device"
-        }
-    ],
+    "relationships": [],
     "fields": [
         {
             "fieldName": "name",

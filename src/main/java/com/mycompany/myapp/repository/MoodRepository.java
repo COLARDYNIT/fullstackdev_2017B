@@ -1,6 +1,7 @@
 package com.mycompany.myapp.repository;
 
 import com.mycompany.myapp.domain.Device;
+import com.mycompany.myapp.domain.DeviceInState;
 import com.mycompany.myapp.domain.Mood;
 import org.springframework.stereotype.Repository;
 
@@ -15,15 +16,15 @@ import java.util.List;
 @Repository
 public interface MoodRepository extends JpaRepository<Mood,Long> {
 
-    @Query("select distinct mood from Mood mood left join fetch mood.devices")
+    @Query("select distinct mood from Mood mood left join fetch mood.deviceInStates")
     List<Mood> findAllWithEagerRelationships();
 
-    @Query("select mood from Mood mood left join fetch mood.devices where mood.id =:id")
+    @Query("select mood from Mood mood left join fetch mood.deviceInStates where mood.id =:id")
     Mood findOneWithEagerRelationships(@Param("id") Long id);
 
     Mood findOneByName(String moodName);
 
     Mood findOneByActive(boolean b);
 
-    List<Mood> findAllByDevices(Device device);
+    List<Mood> findAllByDeviceInStates(DeviceInState deviceInState);
 }

@@ -4,6 +4,10 @@ entity Device {
     type Type
 }
 
+entity DeviceInState{
+    state Boolean,
+}
+
 enum Type {
 	LIGHT,
     POWER_SOURCE,
@@ -18,10 +22,12 @@ entity Mood {
     brightness Integer,
     shutterHeight Integer,
 }
-
+relationship ManyToOne{
+    DeviceInState{Device} to Device
+}
 
 relationship ManyToMany {
-	Mood{Device} to Device{Mood}
+	Mood{DeviceInState} to DeviceInState{Mood}
 }
 
 

@@ -123,7 +123,6 @@ public class MoodResource {
         moodService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
-
     @GetMapping("/mood/toggle/{moodName}")
     public void toggleMoodOn(@PathVariable String moodName){
         try {
@@ -137,5 +136,4 @@ public class MoodResource {
     public Mood getCurrentMood(){
         return moodService.currentMood();
     }
-
 }

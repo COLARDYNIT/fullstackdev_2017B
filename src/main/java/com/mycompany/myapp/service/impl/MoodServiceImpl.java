@@ -2,10 +2,12 @@ package com.mycompany.myapp.service.impl;
 
 import com.mycompany.myapp.Exceptions.InvalidMoodNameException;
 import com.mycompany.myapp.domain.Device;
-import com.mycompany.myapp.repository.DeviceRepository;
-import com.mycompany.myapp.service.MoodService;
+import com.mycompany.myapp.domain.DeviceInState;
 import com.mycompany.myapp.domain.Mood;
+import com.mycompany.myapp.repository.DeviceInStateRepository;
+import com.mycompany.myapp.repository.DeviceRepository;
 import com.mycompany.myapp.repository.MoodRepository;
+import com.mycompany.myapp.service.MoodService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -30,6 +32,8 @@ public class MoodServiceImpl implements MoodService{
     private MoodRepository moodRepository;
     @Resource
     private DeviceRepository deviceRepository;
+    @Resource
+    private DeviceInStateRepository deviceInStateRepository;
 
     /**
      * Save a mood.
@@ -40,12 +44,13 @@ public class MoodServiceImpl implements MoodService{
     @Override
     public Mood save(Mood mood) {
         log.debug("Request to save Mood : {}", mood);
-        if(mood.isActive()){
-            toggleDevicesForMood(mood,true);
-        }else{
-            toggleDevicesForMood(mood,false);
+        if(mood.getId()!= null && mood.isActive()){
+            try {
+                toggleMood(mood.getName());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-
         return moodRepository.save(mood);
     }
 
@@ -93,7 +98,7 @@ public class MoodServiceImpl implements MoodService{
             Mood mood = moodRepository.findOneByName(moodName);
             if (mood != null) {
                 disableAllDevices();
-                toggleDevicesForMood(mood,true);
+                toggleDevicesForMood(mood);
                 mood.setActive(true);
                 moodRepository.save(mood);
             }else throw new InvalidMoodNameException(message);
@@ -108,13 +113,14 @@ public class MoodServiceImpl implements MoodService{
         }
     }
 
-    private void toggleDevicesForMood(Mood mood,boolean active) {
-        List<Device> devices = deviceRepository.findAllByMoods(mood);
+    private void toggleDevicesForMood(Mood mood) {
+        List<DeviceInState> devices = deviceInStateRepository.findAllByMoods(mood);
         if(devices.size() == 0){ // e.g. away status that turns off everything
             disableAllDevices();
         }else{
-            for (Device device : devices) {
-                device.setState(active);
+            for (DeviceInState deviceInState : devices) {
+                Device device = deviceRepository.findOne(deviceInState.getDevice().getId());
+                device.setState(deviceInState.isState());
                 deviceRepository.save(device);
             }
         }
@@ -125,11 +131,11 @@ public class MoodServiceImpl implements MoodService{
         Mood mood = moodRepository.findOneByActive(true);
         if (mood != null) {
             List<Device> activeDevices = deviceRepository.findAllByState(true);
-            int moodDevices = deviceRepository.countByMoods(mood);
+            int moodDevices = deviceInStateRepository.countByMoods(mood);
             if (activeDevices.size() == moodDevices){
-                List<Device> allByMoods = deviceRepository.findAllByMoods(mood);
-                for (Device allByMood : allByMoods) {
-                    if(!activeDevices.contains(allByMood)){
+                List<DeviceInState> allByMoods = deviceInStateRepository.findAllByMoods(mood);
+                for (DeviceInState allByMood : allByMoods) {
+                    if(!activeDevices.contains(allByMood.getDevice())){
                         return null;
                     }
                 }

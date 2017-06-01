@@ -4,7 +4,7 @@ describe('Controller Tests', function() {
 
     describe('Mood Management Detail Controller', function() {
         var $scope, $rootScope;
-        var MockEntity, MockPreviousState, MockMood, MockDevice;
+        var MockEntity, MockPreviousState, MockMood, MockDeviceInState;
         var createController;
 
         beforeEach(inject(function($injector) {
@@ -13,7 +13,7 @@ describe('Controller Tests', function() {
             MockEntity = jasmine.createSpy('MockEntity');
             MockPreviousState = jasmine.createSpy('MockPreviousState');
             MockMood = jasmine.createSpy('MockMood');
-            MockDevice = jasmine.createSpy('MockDevice');
+            MockDeviceInState = jasmine.createSpy('MockDeviceInState');
             
 
             var locals = {
@@ -22,7 +22,7 @@ describe('Controller Tests', function() {
                 'entity': MockEntity,
                 'previousState': MockPreviousState,
                 'Mood': MockMood,
-                'Device': MockDevice
+                'DeviceInState': MockDeviceInState
             };
             createController = function() {
                 $injector.get('$controller')("MoodDetailController", locals);

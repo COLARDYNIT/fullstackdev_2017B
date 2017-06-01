@@ -15,46 +15,23 @@
     <property name="floatType" value="float" dbms="mysql, oracle, mssql"/>
 
     <!--
-        Added the entity Mood.
+        Added the entity DeviceInState.
     -->
-    <changeSet id="20170601084158-1" author="jhipster">
-        <createTable tableName="mood">
+    <changeSet id="20170601134520-1" author="jhipster">
+        <createTable tableName="device_in_state">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="name" type="varchar(255)">
+            <column name="state" type="bit">
                 <constraints nullable="true" />
             </column>
 
-            <column name="active" type="bit">
-                <constraints nullable="true" />
-            </column>
-
-            <column name="audio_volume" type="integer">
-                <constraints nullable="true" />
-            </column>
-
-            <column name="brightness" type="integer">
-                <constraints nullable="true" />
-            </column>
-
-            <column name="shutter_height" type="integer">
+            <column name="device_id" type="bigint">
                 <constraints nullable="true" />
             </column>
 
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
-        
-        <createTable tableName="mood_device_in_state">
-            <column name="device_in_states_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-            <column name="moods_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-
-        <addPrimaryKey columnNames="moods_id, device_in_states_id" tableName="mood_device_in_state"/>
         
     </changeSet>
 </databaseChangeLog>

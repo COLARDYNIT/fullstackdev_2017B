@@ -5,15 +5,14 @@
         .module('fullstackdev2017BApp')
         .controller('DeviceDialogController', DeviceDialogController);
 
-    DeviceDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Device', 'Mood'];
+    DeviceDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Device'];
 
-    function DeviceDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Device, Mood) {
+    function DeviceDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Device) {
         var vm = this;
 
         vm.device = entity;
         vm.clear = clear;
         vm.save = save;
-        vm.moods = Mood.query();
 
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();

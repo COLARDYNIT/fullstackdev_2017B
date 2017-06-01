@@ -24,10 +24,10 @@
         <dd>
             <span>{{vm.mood.shutterHeight}}</span>
         </dd>
-        <dt><span>Device</span></dt>
+        <dt><span>Device In State</span></dt>
         <dd>
-            <span ng-repeat="device in vm.mood.devices">
-                <a ui-sref="device-detail({id: device.id})">{{device.id}}</a>{{$last ? '' : ', '}}
+            <span ng-repeat="deviceInState in vm.mood.deviceInStates">
+                <a ui-sref="device-in-state-detail({id: deviceInState.id})">{{deviceInState.id}}</a>{{$last ? '' : ', '}}
             </span>
         </dd>
     </dl>

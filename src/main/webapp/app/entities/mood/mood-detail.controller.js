@@ -5,9 +5,9 @@
         .module('fullstackdev2017BApp')
         .controller('MoodDetailController', MoodDetailController);
 
-    MoodDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'entity', 'Mood', 'Device'];
+    MoodDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'entity', 'Mood', 'DeviceInState'];
 
-    function MoodDetailController($scope, $rootScope, $stateParams, previousState, entity, Mood, Device) {
+    function MoodDetailController($scope, $rootScope, $stateParams, previousState, entity, Mood, DeviceInState) {
         var vm = this;
 
         vm.mood = entity;

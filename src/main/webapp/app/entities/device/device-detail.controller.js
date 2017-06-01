@@ -5,9 +5,9 @@
         .module('fullstackdev2017BApp')
         .controller('DeviceDetailController', DeviceDetailController);
 
-    DeviceDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'entity', 'Device', 'Mood'];
+    DeviceDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'entity', 'Device'];
 
-    function DeviceDetailController($scope, $rootScope, $stateParams, previousState, entity, Device, Mood) {
+    function DeviceDetailController($scope, $rootScope, $stateParams, previousState, entity, Device) {
         var vm = this;
 
         vm.device = entity;

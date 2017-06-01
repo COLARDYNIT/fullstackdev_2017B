@@ -3,7 +3,9 @@ package com.mycompany.myapp.service.impl;
 import com.mycompany.myapp.Exceptions.InvalidMoodNameException;
 import com.mycompany.myapp.Fullstackdev2017BApp;
 import com.mycompany.myapp.domain.Device;
+import com.mycompany.myapp.domain.DeviceInState;
 import com.mycompany.myapp.domain.Mood;
+import com.mycompany.myapp.repository.DeviceInStateRepository;
 import com.mycompany.myapp.repository.DeviceRepository;
 import com.mycompany.myapp.repository.MoodRepository;
 import com.mycompany.myapp.service.MoodService;
@@ -32,17 +34,23 @@ public class MoodServiceImplIntTest {
     private MoodRepository moodRepository;
     @Resource
     private MoodService moodService;
+    @Resource
+    private DeviceInStateRepository deviceInStateRepository;
 
     private Mood home;
     private Device light;
     private Device shutter;
     private Device power;
 
+    private DeviceInState lightInState;
+    private DeviceInState shutterInState;
+
 
     @Before
     public void setup(){
         moodRepository.deleteAll();
         deviceRepository.deleteAll();
+        deviceInStateRepository.deleteAll();
 
         light = new Device();
         light.setName("light");
@@ -55,10 +63,22 @@ public class MoodServiceImplIntTest {
         deviceRepository.save(power);
         deviceRepository.save(shutter);
 
+        lightInState = new DeviceInState();
+        lightInState.setDevice(light);
+        lightInState.setState(true);
+
+        shutterInState = new DeviceInState();
+        shutterInState.setDevice(shutter);
+        shutterInState.setState(true);
+
+        deviceInStateRepository.save(lightInState);
+        deviceInStateRepository.save(shutterInState);
+
         home = new Mood();
         home.setName("home");
-        home.addDevice(light);
-        home.addDevice(shutter);
+        home.addDeviceInState(lightInState);
+        home.addDeviceInState(shutterInState);
+
         moodRepository.save(home);
 
     }

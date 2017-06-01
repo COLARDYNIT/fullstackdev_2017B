@@ -1,7 +1,9 @@
 package com.mycompany.myapp.service.impl;
 
 import com.mycompany.myapp.domain.Device;
+import com.mycompany.myapp.domain.DeviceInState;
 import com.mycompany.myapp.domain.Mood;
+import com.mycompany.myapp.repository.DeviceInStateRepository;
 import com.mycompany.myapp.repository.DeviceRepository;
 import com.mycompany.myapp.repository.MoodRepository;
 import com.mycompany.myapp.service.DeviceService;
@@ -27,6 +29,7 @@ public class DeviceServiceImpl implements DeviceService{
 
     @Resource
     private DeviceRepository deviceRepository;
+    private DeviceInStateRepository deviceInStateRepository;
     @Resource
     private MoodRepository moodRepository;
 
@@ -42,10 +45,12 @@ public class DeviceServiceImpl implements DeviceService{
     public Device save(Device device) {
         log.debug("Request to save Device : {}", device);
         //if device is part of active mood and state is set to false set mood to false
-        if (!device.isState()){
-            List<Mood> moodList = moodRepository.findAllByDevices(device);
-            for (Mood mood : moodList) {
-                if (mood.isActive()){
+
+        if (device.getId() != null && !device.isState()){
+            List<DeviceInState> allByDevice = deviceInStateRepository.findAllByDevice(device);
+            for (DeviceInState deviceInState : allByDevice) {
+                List<Mood> allByDeviceInStates = moodRepository.findAllByDeviceInStates(deviceInState);
+                for (Mood mood : allByDeviceInStates) {
                     mood.setActive(false);
                     moodRepository.save(mood);
                 }

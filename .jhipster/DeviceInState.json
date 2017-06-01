@@ -1,0 +1,29 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "device",
+            "otherEntityName": "device",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "relationshipName": "mood",
+            "otherEntityName": "mood",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "deviceInState"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "state",
+            "fieldType": "Boolean"
+        }
+    ],
+    "changelogDate": "20170601134520",
+    "entityTableName": "device_in_state",
+    "dto": "no",
+    "pagination": "pager",
+    "service": "serviceImpl"
+}
