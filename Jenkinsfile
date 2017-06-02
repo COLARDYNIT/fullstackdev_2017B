@@ -19,7 +19,6 @@ stage('img build'){
             git branch: 'develop', url: 'git@github.com:COLARDYNIT/pi-gen.git'
         }
         sh"mv target/*war image/stage2/01-sys-tweaks/files/"
-        sh"mv config image/"
         sh "sudo image/build.sh"
         archiveArtifacts 'image/work/*-dockerpi/export-image/*.img'
     }
