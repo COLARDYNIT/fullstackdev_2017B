@@ -15,6 +15,7 @@ stage ('test & package'){
 stage('img build'){
     input "Build raspberry image?"
     node {
+        sh "sudo rm -rf image/work/**/*.img"
         dir("image"){
             git branch: 'develop', url: 'git@github.com:COLARDYNIT/pi-gen.git'
         }
