@@ -22,8 +22,8 @@ spring:
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
         url: jdbc:mariadb://127.0.0.1:3306/fullstackdev_2017B
-        username: root
-        password: root
+        username: app
+        password: apppwd
         hikari:
             data-source-properties:
                 cachePrepStmts: true
